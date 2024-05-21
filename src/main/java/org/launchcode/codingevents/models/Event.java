@@ -1,14 +1,20 @@
 package org.launchcode.codingevents.models;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 import java.util.Objects;
+
+@Entity
 public class Event {
 
+    @Id
+    @GeneratedValue
     private int id;
-    private static int nextId = 1;
+//    private static int nextId = 1; IS NOT NEEDED SINCE @GENERATEDVALUE will generate the ID and increment
 
     @NotBlank(message = "Name is required")
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
@@ -24,7 +30,7 @@ public class Event {
     private EventType type;
 
     public Event(String name, String description, String contactEmail, EventType type) {
-        this();
+//        this(); not needed since ID is not being set within JAVA but now SQL
         this.name = name;
         this.description = description;
         this.contactEmail = contactEmail;
@@ -32,8 +38,8 @@ public class Event {
     }
 
     public Event() {
-        this.id = nextId;
-        nextId++;
+//        this.id = nextId; not needed due to @GENERATEDVALUE incrementing for us in the SQL table
+//        nextId++;
     }
     public String getName() {
         return name;
