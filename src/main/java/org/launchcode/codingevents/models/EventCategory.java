@@ -1,22 +1,23 @@
 package org.launchcode.codingevents.models;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class EventCategory {
-    @Id
-    @GeneratedValue
-    private int id;
+public class EventCategory extends AbstractEntity{
+
 
     @NotBlank(message = "Name is required")
     @Size(min = 3, max = 50, message = "Name must be between 3 and 50 characters")
     private String name;
+
+    @OneToMany(mappedBy = "eventCategory")
+    private final List<Event> events = new ArrayList<>();
 
     public EventCategory(String name){
 
@@ -24,8 +25,8 @@ public class EventCategory {
     }
     public EventCategory(){}
 
-    public int getId() {
-        return id;
+    public List<Event> getEvents() {
+        return events;
     }
 
     public String getName() {
@@ -40,16 +41,5 @@ public class EventCategory {
         return name;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        EventCategory that = (EventCategory) o;
-        return getId() == that.getId();
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getId());
-    }
 }
